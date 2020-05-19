@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+  <title>My Online Organizer App</title>
+
+    <!--    Angular CSS-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--    Main Styles CSS  -->
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!--------------------------------------------------------------------------------->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body ng-app="EventList" ng-controller="MainController">
+
+    <!--    Angular initialization-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+
+    <script type="text/javascript">
+        angular.module('BlankApp', ['ngMaterial', 'ngMessages']);
+    </script>
+
+<div class="jumbotron">
+    <div class="main-header">
+        <h1>Online Organizer</h1>
+    </div>
+
+    <!---- for include a calender---->
+    <div class="row">
+        <div class="calendar-wrapper">
+<!--            <md-calendar ng-model="startDate" ng-change="showEventsOfSelectedDate(startDate)" data-toggle="modal"-->
+<!--                         data-target="#ModalDate" ></md-calendar>-->
+            <md-calendar ng-model="startDate" ng-change="showEventsOfSelectedDate(startDate)"  data-toggle="modal"
+                         data-target="#ModalDate" ></md-calendar>
+
+        </div>
+        <!--    <div>{{startDate | date:shortDate}}</div>-->
+
+        <!--For remind next event -->
+        <div class="card-display-event">
+            <md-card md-theme="{{'default'}}" md-theme-watch style="background-color: #cda39e">
+                <md-card-title >
+                    <md-card-title-text>
+                        <span class="md-subhead" style="color: red; font-weight: bold; padding-top: 2px; font-size: larger">Next Event Reminder</span>
+                        <ul class="list-group" ng-repeat="nextEvent in listOfNextEvents">
+                            <div class="list-group mb-3">
+                                <li class="list-group-item " style="font-weight: bold">
+                                    <span class="s1" ng-bind="nextEvent.Name" style="margin-left: 10px"></span>
+                                    <span class="s2" ng-bind="nextEvent.Space" style="margin-left: 20px"></span>
+                                    <span class="s3" ng-bind="nextEvent.DisplayDate" style="margin-left: 20px"></span>
+                                </li>
+                            </div>
+                        </ul>
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+
+            <!--------------For event of selected date/ include eventsOfSelectedDate.html file ------------------->
+            <div ng-include="'eventsOfSelectedDate.html'"></div>
+
+            <!--------------For display upcoming date/include upcomingEvents.html file ------------------->
+            <div ng-include="'upcomingEvents.html'"></div>
+        </div>
+
+    </div>
+
+    <br><br>
+    <!----for success msg--------->
+    <div class="alert alert-success alert-dismissible" ng-if="successAlert">
+        <a href="#" class="close" data-dismiss="alert" ng-click="clearSuccessAlert()">&times;</a>
+        <strong>Success!</strong> {{successAlert}}
+    </div>
+
+    <!----for warning msg -------->
+    <div class="alert alert-warning alert-dismissible" ng-if="warningMsg">
+        <a href="#" class="close" data-dismiss="alert" ng-click="clearWarningAlert()">&times;</a>
+        <strong>Warning!</strong> {{warningMsg}}
+    </div>
+
+    <!----for info alert -------->
+    <div class="alert alert-info alert-dismissible" ng-if="infoMsg">
+        <a href="#" class="close" data-dismiss="alert" ng-click="clearInfoAlert()">&times;</a>
+        <strong>Info!</strong> {{infoMsg}}
+    </div>
+
+        <!----for buttons-->
+<!--    <div class="form-group" style="margin-top: 5px">-->
+<!--        <button type="button" class="btn btn-primary btn-lg"  style="margin-left: 20px" data-toggle="modal"-->
+<!--                data-target="#ModalAdd" >Add New Event</button>-->
+<!--        <button type="button" class="btn btn-danger col-sm-1.5 btn-lg" id="rmvExp" ng-click="removeExpireEventsFromList()"-->
+<!--                style="margin-left: 20px">Remove Expired Events</button>-->
+<!--        <div class="fab-add-event">-->
+<!--            <md-button class="md-fab md-primary" aria-label="Use Android" data-target="#ModalAdd">-->
+<!--                <i class="material-icons md-36 ico-add-event">add</i>-->
+<!--            </md-button>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <!---Add new events to the list----------->
+    <div class="card-addEventList">
+        <md-card md-theme="{{'default'}}" md-theme-watch style="max-height: 500px; overflow-y: auto;">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-subhead" style="font-weight: bold; padding-top: 2px; font-size: larger; color: #060569">
+                        All Events
+
+                        <button type="button" class="btn-past" id="rmvExp" ng-click="removeExpireEventsFromList()"
+                                style="margin-left: 20px"><i class="fa fa-trash" ></i>Remove Past Events</button>
+                        <button type="button" class="btn-add" data-toggle="modal" data-target="#ModalAdd"><i class="fa fa-add" ></i>+</button>
+                    </span>
+                    <ul class="list-group" ng-repeat="event in eventList">
+                        <div class="list-group mb-3">
+                            <li class="list-group-item " >
+<!--                                <input type="checkbox" class="checkb" aria-label="Checkbox for following text input" ng-model="event.complete" >-->
+<!--                                <span class="s1" ng-bind="event.EventID" style="margin-left: 10px"></span>-->
+                                <span class="s1" ng-bind="event.Name" style="margin-left: 10px"></span>
+                                <span class="s2" ng-bind="event.Space" style="margin-left: 20px"></span>
+                                <span class="s3" ng-bind="event.DisplayDate" style="margin-left: 20px"></span>
+
+<!--                                <button type="button" class="btn-update" data-toggle="modal"-->
+<!--                                        data-target="#ModalUpdate" ng-click="selectEvent(event)">-->
+<!--                                    <ion-icon name="create-outline" size="large"  id="button-addon2" ></ion-icon>-->
+<!--                                </button>-->
+
+<!--                                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal"-->
+<!--                                        data-target="#ModalRemove" ng-click="selectEvent(event)">-->
+<!--                                    <ion-icon class="btn" name="archive-outline" size = "large"></ion-icon>-->
+<!--                                </button>-->
+                                <button type="button" class="btn-dlt" data-toggle="modal" data-target="#ModalRemove" ng-click="selectEvent(event)">
+                                    <i class="fa fa-trash" ></i>
+                                </button>
+
+                                <button type="button" class="btn-update" data-toggle="modal" data-target="#ModalUpdate" ng-click="selectEvent(event)">
+                                    <i class="fa fa-edit" ></i>
+                                </button>
+                            </li>
+                        </div>
+                    </ul>
+                </md-card-title-text>
+            </md-card-title>
+        </md-card>
+    </div>
+
+    <!----------------------------Modal Event Add---------------------------------------->
+    <div class="modal fade" id="ModalAdd" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add New Event</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form class="form-horizontal" >
+                        <div class="form-group">
+                            <label class="control-label col-sm-5" for="event">Event Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="event" placeholder="Enter event name" ng-model="eventName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-5" for="eventdate">Event Date</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="eventdate" placeholder="Enter event date " ng-model="startDate">
+<!--                                <md-calendar ng-model="startDate"  id="eventdate" md-open-on-focus></md-calendar>-->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary" ng-click="addEvent()" data-dismiss="modal">Add</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!----------------------------Modal Event Update---------------------------------------->
+    <div class="modal fade" id="ModalUpdate" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Update Event Details</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal" >
+                        <div class="form-group">
+                            <label class="control-label col-sm-5" for="updateEvent">Event Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="updateEvent" ng-model="selectedEvent.Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-5" for="updateEventDate">Event Date</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="updateEventDate"  ng-model="selectedEvent.Date">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary" ng-click="updateEventDetails(selectedEvent.EventID)"
+                                        data-dismiss="modal">Update</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!----------------------------Modal Event Remove for all event list---------------------------------------->
+    <div class="modal fade" id="ModalRemove" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Are you sure delete this event??</h4>
+                </div>
+
+                <div class="modal-body">
+                    <strong style="color: red;">
+                        You are going to delete {{selectedEvent.Name}} event...
+                    </strong>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removeEventsFromList()" >Yes</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" >No</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!----------------------------Modal for date selected from calender---------------------------------------->
+    <div class="modal fade" id="ModalDate" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Do you want to add event or see event for selected date?? Otherwise click No</h4>
+                </div>
+
+                <div class="modal-body">
+                    <strong style="color: blue;">
+                        You can add an event by add event button...
+                        You can see scheduled event for that day by see event button...
+                    </strong>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal"
+                            data-target="#ModalAdd">Add Event</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" >See Event</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
+    <!--following codes is used to import the app and controller-->
+    <script src="app.js"></script>
+    <script src = "controller/MainController.js"></script>
+    <!--<script src = "controller/popupCloseController.js.js"></script>-->
+    <script src="core/version/version.js"></script>
+    <script src="core/version/version-directive.js"></script>
+    <script src="core/version/interpolate-filter.js"></script>
+    <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+
+</body>
+</html>
+
+
+
+
+

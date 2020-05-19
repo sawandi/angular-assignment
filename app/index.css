@@ -1,0 +1,132 @@
+body{
+    /*background-color: #9c9797;*/
+    /*max-height: 100%;*/
+    /*background-color: #9c9797;*/
+    /*background-repeat: repeat;*/
+
+}
+.jumbotron{
+    background-color: rgba(139, 150, 158, 0.73);
+
+}
+.main-header{
+    background-color: #0a0469;
+    height: 50px;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+}
+.main-header h1{
+    color: #fff;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 0;
+    margin: 2px 0 0 10px;
+}
+.row{
+    display: inline-flex;
+    width: 100%;
+    padding: 5px 10px;
+}
+.calendar-wrapper{
+    margin-left: 100px;
+    margin-top: 85px;
+    -webkit-box-shadow: 1px 2px 6px 1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 2px 6px 1px rgba(0,0,0,0.75);
+    box-shadow: 1px 2px 6px 1px rgba(0,0,0,0.75);
+    height: 350px;
+}
+.card-display-event{
+    float: right;
+    width: 55%;
+    margin-left: 170px;
+    /*background-color: #cda29e;*/
+    height: 20%;
+}
+
+.card-addEventList {
+    width: 55%;
+    margin-left: 10px;
+}
+
+.btn-add {
+    background-color: #060569;
+    border-radius: 100px;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    float: right;
+}
+
+/* Darker background on mouse-over */
+.btn-add:hover {
+    background-color: #0b07b3;
+}
+
+.btn-update {
+    background-color: #3b3d98;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    float: right;
+}
+/* Darker background on mouse-over */
+.btn-update:hover {
+    background-color: #0b07b3;
+}
+.btn-dlt {
+    background-color: #ba0126;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    float: right;
+}
+/* Darker background on mouse-over */
+.btn-dlt:hover {
+    background-color: indianred;
+}
+.btn-past {
+    background-color: #ba0126;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    float: right;
+}
+/* Darker background on mouse-over */
+.btn-past:hover {
+    background-color: indianred;
+}
+
+ion-icon {
+    color: blue;
+    margin-left: 100px;
+}
+
+ion-icon.btn{
+    color: red;
+    margin-left: 10px;
+}
+
+.list-group-item{
+    height: auto;
+    /*width: 50%;*/
+    margin-top: 5px;
+}
+
+.datepickerdemoCalendar {
+    /** Demo styles for mdCalendar. */
+}
+.datepickerdemoCalendar label {
+    font-size: x-small;
+}
+

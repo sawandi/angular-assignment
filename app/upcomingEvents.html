@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+            <md-card md-theme="{{'default'}}" md-theme-watch style="max-height: 400px; overflow-y: auto;">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead" style="font-weight: bold; padding-top: 2px; font-size: larger; color: #060569">Upcoming Events</span>
+                        <ul class="list-group" ng-repeat="upcomingEvent in UpcomingEventsList">
+                            <div class="list-group mb-3">
+                                <li class="list-group-item " >
+                                    <input type="checkbox" class="checkb" aria-label="Checkbox for following text input" ng-model="upcomingEvent.complete" >
+<!--                                    <span class="s1" ng-bind="upcomingEvent.EventID" style="margin-left: 10px"></span>-->
+                                    <span class="s1" ng-bind="upcomingEvent.Name" style="margin-left: 10px"></span>
+                                    <span class="s2" ng-bind="upcomingEvent.Space" style="margin-left: 20px"></span>
+                                    <span class="s3" ng-bind="upcomingEvent.DisplayDate" style="margin-left: 20px"></span>
+
+
+                                    <button type="button" class="btn-dlt"  ng-click="removeEventsFromUpcomingEvents()">
+                                        <i class="fa fa-trash" ></i>
+                                    </button>
+
+                                    <button type="button" class="btn-update" data-toggle="modal" data-target="#ModalUpdate" ng-click="selectEvent(upcomingEvent)">
+                                        <i class="fa fa-edit" ></i>
+                                    </button>
+
+<!--                                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#ModalUpdate"-->
+<!--                                            ng-click="selectEvent(upcomingEvent)">-->
+<!--                                        <ion-icon name="create-outline" size="large"  id="button-addon2"  ></ion-icon>-->
+<!--                                    </button>-->
+
+<!--                                    <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal"-->
+<!--                                            ng-click="removeEventsFromUpcomingEvents()">-->
+<!--                                        <ion-icon class="btn" name="archive-outline" size = "large"></ion-icon>-->
+<!--                                    </button>-->
+
+<!--                                    <button type="button" class="btn-dlt"  ng-click="removeEventsFromUpcomingEvents()">-->
+<!--                                        <i class="fa fa-trash" ></i>-->
+<!--                                    </button>-->
+
+<!--                                    <button type="button" class="btn-dlt" data-toggle="modal" data-target="#ModalRemove" ng-click="selectEvent(upcomingEvent)">-->
+<!--                                        <i class="fa fa-edit" ></i>-->
+<!--                                    </button>-->
+
+
+                                </li>
+                            </div>
+                        </ul>
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+
+
+</body>
+</html>
